@@ -1,0 +1,13 @@
+<user>
+    <email>admin4@Admin4.com</email>
+    <password>admin4</password>
+    <active>1</active>
+    <roles>
+        <role>
+            <roleName>ROLE_ADMIN</roleName>
+        </role>
+        <role>
+            <roleName>ROLE_USER</roleName>
+        </role>
+    </roles>
+</user>

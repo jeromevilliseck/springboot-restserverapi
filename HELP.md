@@ -29,6 +29,16 @@ The following guides illustrate how to use some features concretely:
 * Java: 8
 
 ### Explication du rôle des dossiers
+
 * src/main/resources/static: stocker tous les fichiers css, images, ne fournissant pas un contenu dynamique
 * src/main/resources/templates: stocker des fichiers web si on utilise les framework Thymeleaf de spring
 * src/main/resources/application.properties: pour configurer le projet
+
+### Objectif du projet
+#### Creation d'un service complet de gestion d'un utilisateur
+
+* Extraction de tous les utilisateurs
+* Extraction d'un utilisateur à base de son identifiant
+* Création d'un utilisateur
+* Mise à jour d'un utilisateur
+* Suppression d'un utilisateur
