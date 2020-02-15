@@ -29,10 +29,10 @@ public class RestServices {
     Nouvelle annotation introduite par spring qui remplace l'annotation classique
     @RequestMapping et qui correspond exactement à:
     @RequestMapping(method=RequestMethod.GET, value="/")
+    Adresse de test de la configuration: http://localhost:8080
      */
     public ResponseEntity<String> pong(){
         logger.info("Démarrage des services OK");
-
         return new ResponseEntity<String>("Réponse du serveur:" + HttpStatus.OK.name(), HttpStatus.OK);
     }
 }
