@@ -5,6 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
+		<!--LEARN: rapatrie la plupart des dépendances du projet-->
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
@@ -23,10 +24,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<!--LEARN: développement de la couche de persistance-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!--LEARN: indique qu'il s'agit d'une application web (rapatrie SpringMVC, SpringContext, Tomcat)-->
 		</dependency>
 
 		<dependency>
@@ -37,6 +40,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!--Tomcat intégré par spring-boot-->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
