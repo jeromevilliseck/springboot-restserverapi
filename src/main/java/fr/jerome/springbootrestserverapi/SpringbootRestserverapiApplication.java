@@ -18,7 +18,7 @@ l'application et à initialiser tous les controleurs)
 
 Dispense de l'utilisation de:
 @EnableWebMvc (indique qu'il s'agit d'une application SpringMVC)
-*/
+ */
 public class SpringbootRestserverapiApplication {
 
 	public static void main(String[] args) {
