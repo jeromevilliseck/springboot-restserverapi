@@ -32,11 +32,6 @@
 			<!--LEARN: indique qu'il s'agit d'une application web (rapatrie SpringMVC, SpringContext, Tomcat)-->
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-			<!--LEARN: va permettre l'encryptage du mot de passe pour son stockage en base de donnée-->
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>4.0</version>
