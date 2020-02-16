@@ -1,4 +1,4 @@
-package fr.jerome.springbootrestserverapi;
+package fr.jerome.springbootrestserverapi.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 Annotation permettant à Spring d'enregistrer la classe comme un contrôleur, et de mémoriser les
 requêtes que cette classe est capable de gérer
  */
-public class RestServices {
+public class DefaultController {
     /*
     Integration d'un logger sans configuration grâce à slf4j
     On obtient un logger en passant en paramètre à sa création la classe courante
      */
-    private static final Logger logger = LoggerFactory.getLogger(RestServices.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultController.class);
 
     @GetMapping(value = "/")
     /*
