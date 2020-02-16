@@ -2,6 +2,10 @@ package fr.jerome.springbootrestserverapi.dto;
 
 import java.io.Serializable;
 
+/**
+ * Classe permettant de stocker les données utilisateurs qui transistent sur le
+ * réseau ou entre les couches de l'application
+ */
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = -443589941665403890L;
 

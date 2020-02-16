@@ -6,6 +6,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Rôle d'un utilisateur: administrateur ou utilisateur standard
+ */
 @Entity
 /*
 Annotation indiquant que la classe sera une table de la base de données

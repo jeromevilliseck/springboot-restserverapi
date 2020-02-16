@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Un utilisateur avec login et password, actif ou non actif
+ */
 @Entity
 @Table(name = "UTILISATEUR")
 /*
