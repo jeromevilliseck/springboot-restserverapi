@@ -30,6 +30,8 @@ public class DefaultController {
     @RequestMapping et qui correspond exactement à:
     @RequestMapping(method=RequestMethod.GET, value="/")
     Adresse de test de la configuration: http://localhost:8080
+
+    La classe ResponseEntity permet la gestion des statuts HTTP de réponses (fait le rôle de: ResponseBody + HttpStatus)
      */
     public ResponseEntity<String> pong(){
         logger.info("Démarrage des services OK");
