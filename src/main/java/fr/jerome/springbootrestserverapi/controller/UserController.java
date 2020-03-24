@@ -17,6 +17,11 @@ import java.util.Collection;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+/*
+Annotation @CrossOrigin
+permet de favoriser une communication distante entre le client et le serveur, quand le serveur et le client sont
+déployés sur deux serveurs distincts, permet d'éviter les problèmes de réseau
+ */
 @RequestMapping("/user/*")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -27,6 +32,9 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    /*
+    Adresse: http://localhost:8080/user/users
+     */
     @GetMapping(value = "/users")
     public ResponseEntity<Collection<User>> getAllUsers(){
         Collection<User> users = userService.getAllUsers();
