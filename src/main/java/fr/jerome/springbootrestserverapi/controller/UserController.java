@@ -37,6 +37,8 @@ public class UserController {
     private RoleService roleService;
 
     /*
+    Service d'extraction de tous les utilisateurs dans UserController
+
     Adresse: http://localhost:8080/user/users (GET)
      */
     @GetMapping(value = "/users")
@@ -47,6 +49,8 @@ public class UserController {
     }
 
     /*
+    Service de création d'un utilisateur à ajouter dans la classe UserController
+
     Adresse: http://localhost:8080/user/users (POST)
 
     Exemple d'XML d'insertion en POST
@@ -73,6 +77,19 @@ public class UserController {
         logger.info("userSave: " + userSave.toString());
 
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
+    }
+
+    /*
+    Service de recherche d'un utilisateur par son login
+
+    Adresse: http://localhost:8080/user/users/{login_à_rechercher} (GET)
+     */
+    @GetMapping(value = "/users/{loginName}")
+    public ResponseEntity<User> findUserByLogin(@PathVariable("loginName") String login){
+        User user = userService.findByLogin(login);
+        logger.debug("Utilisateur trouvé: " + user);
+
+        return new ResponseEntity<User>(user, HttpStatus.FOUND);
     }
 
     //Extraction
