@@ -92,6 +92,48 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.FOUND);
     }
 
+    /*
+    Service de modification d'un utilisateur
+
+    Adresse: http://localhost:8080/user/users/{id_utilisateur_a_update} (PUT)
+
+    Exemple XML de modification du user3
+
+    <user>
+	<login>user3</login>
+	<password>user3</password>
+	<active>1</active>
+    </user>
+     */
+    @PutMapping(value = "/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User user){
+        User userToUpdate = userService.getUserById(id);
+        if(userToUpdate == null){
+            logger.debug("L'utilisateur avec l'identifiant" + id + "n'existe pas");
+
+            return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+        }
+        logger.info("UPDATE ROLE: " + userToUpdate.getRoles().toString());
+        userToUpdate.setLogin(user.getLogin());
+        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setActive(user.getActive());
+        User userUpdated = userService.saveOrUpdateUser(userToUpdate);
+
+        return new ResponseEntity<User>(userUpdated, HttpStatus.OK);
+    }
+
+    /*
+    Service de suppression d'un utilisateur
+
+    Adresse: http://localhost:8080/user/users/{id_utilisateur_a_supprimer} (DELETE)
+     */
+    @DeleteMapping(value = "/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(value = "id") Long id){
+        userService.deleteUser(id);
+
+        return new ResponseEntity<Void>(HttpStatus.GONE);
+    }
+
     //Extraction
 
     //Advanced method which use filter to get User Roles
