@@ -41,30 +41,28 @@ public class GlobalHandlerControllerException extends ResponseEntityExceptionHan
     }
 
     @ExceptionHandler(TechnicalErrorException.class)
-    public ModelAndView technicalErrorException(Exception exception){
+    public ModelAndView technicalErrorException(Exception exception) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception.getMessage());
         mav.setViewName("error");
         return mav;
     }
-
     @ExceptionHandler(Exception.class)//toutes les autres erreurs non gérées sont interceptées ici
-    //Pour les erreurs techniques non spécifiées, on renvoie vers la vue error.jsp.
-    public ResponseEntity<BusinessRessourceExceptionResponse> unknowError(HttpServletRequest req, Exception ex) {
-        BusinessRessourceExceptionResponse response = new BusinessRessourceExceptionResponse();
+    public ResponseEntity<BusinessResourceExceptionResponse> unknowError(HttpServletRequest req, Exception ex) {
+        BusinessResourceExceptionResponse response = new BusinessResourceExceptionResponse();
         response.setErrorCode("Technical Error");
         response.setErrorMessage(ex.getMessage());
         response.setRequestURL(req.getRequestURL().toString());
-        return new ResponseEntity<BusinessRessourceExceptionResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<BusinessResourceExceptionResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(BusinessResourceException.class)
-    public ResponseEntity<BusinessRessourceExceptionResponse> resourceNotFound(HttpServletRequest req, BusinessResourceException ex) {
-        BusinessRessourceExceptionResponse response = new BusinessRessourceExceptionResponse();
+    public ResponseEntity<BusinessResourceExceptionResponse> resourceNotFound(HttpServletRequest req, BusinessResourceException ex) {
+        BusinessResourceExceptionResponse response = new BusinessResourceExceptionResponse();
         response.setStatus(ex.getStatus());
         response.setErrorCode(ex.getErrorCode());
         response.setErrorMessage(ex.getMessage());
         response.setRequestURL(req.getRequestURL().toString());
-        return new ResponseEntity<BusinessRessourceExceptionResponse>(response, ex.getStatus());
+        return new ResponseEntity<BusinessResourceExceptionResponse>(response, ex.getStatus());
     }
 }
