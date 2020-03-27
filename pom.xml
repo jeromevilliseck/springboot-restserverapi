@@ -75,10 +75,10 @@
 		</dependency>
 
 		<!-- Spring Security: juste pour chiffrer le mot de passe -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
