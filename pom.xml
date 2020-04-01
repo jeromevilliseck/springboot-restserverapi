@@ -6,7 +6,7 @@
 		<!--LEARN: rapatrie la plupart des dépendances du projet-->
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.4.RELEASE</version>
+		<version>2.2.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fr.jerome</groupId>
@@ -124,8 +124,8 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<skip.surefire.tests>true</skip.surefire.tests>
-				<skip.failsafe.tests>false</skip.failsafe.tests>
+				<skip.surefire.tests>true</skip.surefire.tests><!--TU-->
+				<skip.failsafe.tests>false</skip.failsafe.tests><!--TI-->
 			</properties>
 			<build>
 				<plugins>
@@ -134,10 +134,10 @@
 						<artifactId>cargo-maven2-plugin</artifactId>
 						<version>${cargo.version}</version>
 						<configuration>
-							<wait>false</wait>
 							<container>
 								<containerId>tomcat9x</containerId>
 								<type>embedded</type>
+								<timeout>200000</timeout>
 							</container>
 
 							<configuration>
@@ -157,6 +157,11 @@
 								<goals>
 									<goal>start</goal>
 								</goals>
+								<configuration>
+									<container>
+										<timeout>200000</timeout>
+									</container>
+								</configuration>
 							</execution>
 							<execution>
 								<id>stop-server</id>
@@ -164,6 +169,11 @@
 								<goals>
 									<goal>stop</goal>
 								</goals>
+								<configuration>
+									<container>
+										<timeout>200000</timeout>
+									</container>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -221,11 +231,13 @@
 							<container>
 								<containerId>tomcat9x</containerId>
 								<type>embedded</type>
+								<timeout>200000</timeout>
 							</container>
 							<configuration>
 								<home>${project.build.directory}/tomcat9x</home>
 								<properties>
-									<cargo.servlet.port>8080</cargo.servlet.port>
+									<cargo.servlet.port>8484</cargo.servlet.port>
+									<cargo.tomcat.ajp.port>8090</cargo.tomcat.ajp.port>
 								</properties>
 							</configuration>
 							<deployables>
@@ -237,12 +249,36 @@
 								</deployable>
 							</deployables>
 						</configuration>
+						<executions>
+							<execution>
+								<id>start</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+								<configuration>
+									<container>
+										<timeout>200000</timeout>
+									</container>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+								<configuration>
+									<container>
+										<timeout>200000</timeout>
+									</container>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
-
 	</profiles>
-
 
 </project>
