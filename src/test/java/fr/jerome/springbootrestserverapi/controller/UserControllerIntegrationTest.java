@@ -5,8 +5,10 @@ import fr.jerome.springbootrestserverapi.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,12 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserControllerIntegrationTest {
+
     @Autowired
     private TestRestTemplate restTemplate; //dépendance nécessaire pour écrire les requêtes HTTP.
-    private static final String URL = "http://localhost:8484";//url du serveur REST. Cet url peut être celle d'un serveur distant
+    private static final String URL = "http://localhost:8080";//url du serveur REST. Cet url peut être celle d'un serveur distant
 
     private String getURLWithPort(String uri) {
         return URL + uri;

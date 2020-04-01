@@ -67,6 +67,11 @@ public class User implements Serializable {
         this.setPassword(userDTO.getPassword());
     }
 
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     /*
     public User(UserRegistrationForm userRegistrationForm){
         this.setLogin(userRegistrationForm.getLogin());

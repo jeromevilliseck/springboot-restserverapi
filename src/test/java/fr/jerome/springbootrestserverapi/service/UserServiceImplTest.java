@@ -26,18 +26,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 //@RunWith(SpringRunner.class) //pas besoin car on a fait l'autowired par constructeur sur UserServiceImpl
-@SpringBootTest(classes = UserServiceImpl.class)
 public class UserServiceImplTest {
 
     private UserService userService;
-    private RoleRepository roleRepository;
     private UserRepository userRepository;
 
     @Before
     public void setup() {
         userRepository = Mockito.mock(UserRepository.class);
-        roleRepository = Mockito.mock(RoleRepository.class);
-        userService = new UserServiceImpl(userRepository, roleRepository);
+        userService = new UserServiceImpl(userRepository);
     }
 
     User user = new User("Dupont", "password", 1);

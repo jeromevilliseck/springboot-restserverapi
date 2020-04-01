@@ -1,5 +1,27 @@
 package fr.jerome.springbootrestserverapi.controller;
 
+import fr.jerome.springbootrestserverapi.model.Role;
+import fr.jerome.springbootrestserverapi.model.User;
+import fr.jerome.springbootrestserverapi.service.RoleService;
+import fr.jerome.springbootrestserverapi.service.UserService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
@@ -7,37 +29,13 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-//pour les méthodes HTTP
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//pour JSON
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-//pour HTTP status
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import fr.jerome.springbootrestserverapi.model.Role;
-import fr.jerome.springbootrestserverapi.model.User;
-import fr.jerome.springbootrestserverapi.service.RoleService;
-import fr.jerome.springbootrestserverapi.service.UserService;
+//pour les méthodes HTTP
+//pour JSON
+//pour HTTP status
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)

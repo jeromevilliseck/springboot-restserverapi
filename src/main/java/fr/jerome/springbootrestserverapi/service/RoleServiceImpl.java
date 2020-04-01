@@ -11,12 +11,16 @@ import java.util.stream.Stream;
 
 @Service(value = "roleService")
 public class RoleServiceImpl implements RoleService {
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Override
-    public Role findByRoleName(String roleName) {
-        return roleRepository.findByRoleName(roleName);
+    public RoleServiceImpl() {
+        super();
+    }
+
+    @Autowired //autowired par constructeur pour bénéficier des tests unitaires
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        super();
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -27,5 +31,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Stream<Role> getAllRolesStream() {
         return roleRepository.getAllRolesStream();
+    }
+
+    @Override
+    public Role findByRoleName(String roleName) {
+        return roleRepository.findByRoleName(roleName);
     }
 }

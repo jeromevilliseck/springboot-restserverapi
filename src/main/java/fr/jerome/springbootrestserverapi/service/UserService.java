@@ -4,6 +4,7 @@ import fr.jerome.springbootrestserverapi.exception.BusinessResourceException;
 import fr.jerome.springbootrestserverapi.model.User;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface UserService {
     Collection<User> getAllUsers();
@@ -15,4 +16,6 @@ public interface UserService {
     User saveOrUpdateUser(User user);
 
     void deleteUser(Long id);
+
+    Optional<User> findByLoginOptionnal(String login) throws BusinessResourceException;
 }

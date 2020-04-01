@@ -47,6 +47,7 @@ public class GlobalHandlerControllerException extends ResponseEntityExceptionHan
         mav.setViewName("error");
         return mav;
     }
+
     @ExceptionHandler(Exception.class)//toutes les autres erreurs non gérées sont interceptées ici
     public ResponseEntity<BusinessResourceExceptionResponse> unknowError(HttpServletRequest req, Exception ex) {
         BusinessResourceExceptionResponse response = new BusinessResourceExceptionResponse();
