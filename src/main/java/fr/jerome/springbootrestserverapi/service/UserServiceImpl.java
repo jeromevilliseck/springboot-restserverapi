@@ -1,11 +1,13 @@
 package fr.jerome.springbootrestserverapi.service;
 
+import fr.jerome.springbootrestserverapi.dao.RoleRepository;
 import fr.jerome.springbootrestserverapi.dao.UserRepository;
 import fr.jerome.springbootrestserverapi.exception.BusinessResourceException;
 import fr.jerome.springbootrestserverapi.exception.UserNotFoundException;
 import fr.jerome.springbootrestserverapi.model.User;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +19,18 @@ L'annotation @Service est ici optionnelle ici car il n'existe qu'une seule impl�
 Cette annotation permet de déclarer cette classe comme un bean de service
 En cas d'implémentation multiples l'annotation @Service est obligatoire
  */
+
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
-    /*
-    Annotation permettant d'instancier automatiquement un objet
-    en attribut d'une classe à son instanciation (pas besoin de new)
-     */
-    @Autowired
     private UserRepository userRepository;
-    //Les Interfaces DAO peuvent être injectées directement sans avoir à les annoter comme Bean
+    private RoleRepository roleRepository;
 
-/*    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;*/
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+        super();
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public Collection<User> getAllUsers() {
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public User findByLogin(String login) {
         User user = userRepository.findByLogin(login);
         if (user == null){
-            throw new BusinessResourceException("User Not Found", "L'utilisateur avec ce login n'existe pas :" + login);
+            throw new BusinessResourceException("User Not Found", "L'utilisateur avec ce login n'existe pas :" + login, HttpStatus.NO_CONTENT);
         }
         return user;
     }

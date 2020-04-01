@@ -1,16 +1,21 @@
 package fr.jerome.springbootrestserverapi.service;
 
+import fr.jerome.springbootrestserverapi.SpringbootRestserverapiApplication;
+import fr.jerome.springbootrestserverapi.dao.RoleRepository;
 import fr.jerome.springbootrestserverapi.dao.UserRepository;
 import fr.jerome.springbootrestserverapi.model.Role;
 import fr.jerome.springbootrestserverapi.model.User;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -20,39 +25,20 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class) //pas besoin car on a fait l'autowired par constructeur sur UserServiceImpl
+@SpringBootTest(classes = UserServiceImpl.class)
 public class UserServiceImplTest {
 
-    @TestConfiguration //Création des beans nécessaires pour les tests
-    /*
-    Permet d'obtenir un objet d'instance de service
-    N'expose grâce à l'annotation le service que l'ors de la phase de test pour éviter les conflits
-
-     */
-    static class UserServiceImplTestContextConfiguration {
-
-        @Bean//bean de service
-        public UserService userService(){
-            return new UserServiceImpl();
-        }
-
-        /*
-        @Bean//nécessaire pour hacher le mot de passe sinon échec des tests
-        public BCryptPasswordEncoder passwordEncoder() {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            return bCryptPasswordEncoder;
-        }
-        */
-    }
-
-    @Autowired
     private UserService userService;
-
-    @MockBean //création d'un mockBean pour UserRepository
-    /*
-    Permet de mocker les retour de la BDD fictivement dans le cadre de tests pour la couche DAO avec Mockito
-     */
+    private RoleRepository roleRepository;
     private UserRepository userRepository;
+
+    @Before
+    public void setup() {
+        userRepository = Mockito.mock(UserRepository.class);
+        roleRepository = Mockito.mock(RoleRepository.class);
+        userService = new UserServiceImpl(userRepository, roleRepository);
+    }
 
     User user = new User("Dupont", "password", 1);
 

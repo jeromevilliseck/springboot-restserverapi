@@ -25,8 +25,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -53,7 +55,7 @@ public class UserControllerTest {
      */
     private UserService userService;
     @MockBean
-    private RoleService roleService;
+    private RoleService roleService; //Il faut remarquer l'injection du bean RoleService qui est nécessaire, car un utilisateur peut avoir un ou plusieurs rôles.
 
     User user = new User(1L,"Dupont", "password", 1);
 

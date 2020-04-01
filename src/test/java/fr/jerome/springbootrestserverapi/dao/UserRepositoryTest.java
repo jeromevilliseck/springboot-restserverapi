@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -40,7 +41,8 @@ public class UserRepositoryTest {
     }
 
     //ETAPE2 : faire les test unitaires
-    @Test
+    @Test// on a bien 3 utilisateurs initialisés par les scripts data.sql + un nouvel
+		// utilisateur crée dans testSaveUser
     public void testFindAllUsers() {
         List<User> users = userRepository.findAll();
         assertThat(4, is(users.size()));//on a trois users dans le fichier d'initialisation data.sql et un utilisateur ajouté lors du setup du test

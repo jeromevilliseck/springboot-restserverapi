@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
+		<!--LEARN: rapatrie la plupart des dépendances du projet-->
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<!--LEARN: rapatrie la plupart des dépendances du projet-->
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
@@ -18,60 +18,68 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<cargo.version>1.7.10</cargo.version>
+		<tomcat.version>9.0.24</tomcat.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>central maven repo</id>
+			<name>central maven repo https</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
+		<!--LEARN: développement de la couche de persistance-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<!--LEARN: développement de la couche de persistance-->
 		</dependency>
+
+		<!--LEARN: indique qu'il s'agit d'une application web (rapatrie SpringMVC, SpringContext, Tomcat)-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<!--LEARN: indique qu'il s'agit d'une application web (rapatrie SpringMVC, SpringContext, Tomcat)-->
 		</dependency>
+
+		<!--LEARN: permet l'utilisation des collections Apache-->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>4.0</version>
-			<!--LEARN: permet l'utilisation des collections Apache-->
 		</dependency>
+
+		<!-- Base de données utilisée par l'application -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-			<!-- Base de données utilisée par l'application -->
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--Tomcat intégré par spring-boot-->
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- Dépendances pour les tests uniquement -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Base de données pour les tests -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<scope>test</scope>
-			<!-- Base de données pour les tests -->
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Spring Security: juste pour chiffrer le mot de passe -->
@@ -79,30 +87,162 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>-->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 	</dependencies>
 
 	<build>
+		<finalName>springboot-restserver</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<!-- On exclut les tests d'intégration lors de l'exécution des tests
+                    unitaires -->
+				<configuration>
+					<excludes>
+						<exclude>**/*IntegrationTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>integrationTest</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<skip.surefire.tests>true</skip.surefire.tests>
+				<skip.failsafe.tests>false</skip.failsafe.tests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>${cargo.version}</version>
+						<configuration>
+							<wait>false</wait>
+							<container>
+								<containerId>tomcat9x</containerId>
+								<type>embedded</type>
+							</container>
+
+							<configuration>
+								<properties>
+									<!-- les ports 8080 et 8009 sont à éviter si l'application est déjà déployée -->
+									<cargo.servlet.port>8484</cargo.servlet.port>
+									<cargo.tomcat.ajp.port>8090</cargo.tomcat.ajp.port>
+								</properties>
+							</configuration>
+						</configuration>
+
+						<executions>
+							<execution>
+								<!-- id obligatoire pour distinguer les deux phases start et stop -->
+								<id>start-server</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>stop-server</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Configuration de l'exécution des tests d'intégration -->
+					<!-- C'est le plugin maven-failsafe-plugin qui va exécuter les tests d'intégration -->
+					<plugin>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<excludes>
+								<exclude>none</exclude>
+							</excludes>
+							<includes>
+								<include>**/*IntegrationTest.java</include>
+							</includes>
+							<skipTests>${skip.failsafe.tests}</skipTests>
+						</configuration>
+					</plugin>
+					<!-- Le plugin maven-surefire-plugin est adapté pour les tests unitaires -->
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<!-- On exclut les tests unitaires lors des tests d'intégration, car
+                        déjà exécutés NB: Si vous n'ajoutez pas cette configuration, les tests unitaires
+                        seront reéxécutés lors des tests d'intégration -->
+						<configuration>
+							<skipTests>${skip.surefire.tests}</skipTests>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+
+		<profile>
+			<id>springbootServerDeploy</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>${cargo.version}</version>
+						<configuration>
+							<container>
+								<containerId>tomcat9x</containerId>
+								<type>embedded</type>
+							</container>
+							<configuration>
+								<home>${project.build.directory}/tomcat9x</home>
+								<properties>
+									<cargo.servlet.port>8080</cargo.servlet.port>
+								</properties>
+							</configuration>
+							<deployables>
+								<deployable>
+									<groupId>fr.jerome</groupId>
+									<artifactId>springbootrestserverapi</artifactId>
+									<type>war</type>
+									<pingURL>http://localhost:8080/springboot-restserver</pingURL>
+								</deployable>
+							</deployables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
 
 </project>

@@ -36,6 +36,10 @@ public class BusinessResourceException extends RuntimeException{
         this.status = status;
     }
 
+    public BusinessResourceException(HttpStatus status) {
+        this.status = status;
+    }
+
     public Long getResourceId() {
         return resourceId;
     }
