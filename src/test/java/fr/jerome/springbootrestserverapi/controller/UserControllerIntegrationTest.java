@@ -25,6 +25,7 @@ import static org.junit.Assert.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) //Mettre DEFINED_PORT pour avoir le port 8080 pour les TI
 //Lors du lancement de la commande mvn clean install -PintegrationTest, fera les tests d'integration continue sur le port 8080
 public class UserControllerIntegrationTest {
+    //En cas de lancement manuel des tests avec l'IDE, lancer l'application spring au préalable comme pour les TU
 
     @Autowired
     private TestRestTemplate restTemplate; //dépendance nécessaire pour écrire les requêtes HTTP.
